@@ -1,0 +1,43 @@
+{
+  "name": "supadata-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for Supadata transcript API - get transcripts from YouTube, TikTok, X/Twitter videos and audio files",
+  "author": "Supadata MCP Team",
+  "homepage": "https://github.com/supadata/supadata-mcp",
+  "license": "MIT",
+  "keywords": ["transcript", "video", "audio", "youtube", "tiktok", "twitter", "supadata"],
+  
+  "mcpServers": {
+    "supadata": {
+      "runtime": "node",
+      "entrypoint": "dist/index.js",
+      "env": {
+        "SUPADATA_API_KEY": "{{SUPADATA_API_KEY}}"
+      }
+    }
+  },
+  
+  "userConfiguration": {
+    "SUPADATA_API_KEY": {
+      "type": "string",
+      "title": "Supadata API Key",
+      "description": "Your API key from https://supadata.ai - required to use the transcript service",
+      "required": true,
+      "secret": true
+    }
+  },
+  
+  "tools": [
+    {
+      "name": "get_transcript",
+      "description": "Get transcript from video URL (YouTube, TikTok, X/Twitter) or audio file",
+      "categories": ["productivity", "content", "media"]
+    }
+  ],
+  
+  "metadata": {
+    "platforms": ["darwin", "win32", "linux"],
+    "nodeVersion": ">=18",
+    "size": "~2MB"
+  }
+}

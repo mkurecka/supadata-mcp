@@ -57,7 +57,21 @@ The server will look for configuration in this order:
 
 ## Usage
 
-### Claude App MCP Configuration
+### Option 1: Desktop Extension (Recommended)
+
+**One-click installation:**
+1. Download `supadata-mcp.dxt` from releases
+2. Double-click to open with Claude Desktop
+3. Enter your Supadata API key when prompted
+4. Click "Install"
+
+**Build extension yourself:**
+```bash
+npm run package
+# Creates supadata-mcp.dxt file
+```
+
+### Option 2: Manual MCP Configuration
 
 Add to your Claude app's MCP server configuration:
 
@@ -75,7 +89,7 @@ Add to your Claude app's MCP server configuration:
 }
 ```
 
-### Alternative: Without Environment Variables
+### Option 3: Without Environment Variables
 ```json
 {
   "mcpServers": {
@@ -102,8 +116,26 @@ Get transcript from video or audio content.
 ## Development
 
 ```bash
-npm run dev     # Build and run
-npm run watch   # Watch mode
-npm run lint    # Lint code
-npm run typecheck # Type checking
+npm run dev           # Build and run
+npm run watch         # Watch mode  
+npm run lint          # Lint code
+npm run typecheck     # Type checking
+npm run package       # Build desktop extension (.dxt)
+npm run build-extension # Alias for package
 ```
+
+## Desktop Extension Features
+
+- **One-click installation** - No complex setup required
+- **Secure API key storage** - Stored in OS keychain
+- **Cross-platform support** - Works on macOS, Windows, Linux
+- **Automatic updates** - Extension updates managed by Claude Desktop
+- **User-friendly configuration** - GUI prompts for API key
+
+## Files
+
+- `manifest.json` - Desktop extension configuration
+- `build-extension.js` - Packaging script for .dxt creation
+- `supadata-mcp.dxt` - Packaged extension (generated)
+- `src/` - TypeScript source code
+- `dist/` - Compiled JavaScript (generated)

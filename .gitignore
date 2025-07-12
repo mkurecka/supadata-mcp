@@ -7,6 +7,10 @@ dist/
 # Configuration (contains API keys)
 supadata-config.json
 
+# Desktop Extension
+extension/
+*.dxt
+
 # Logs
 *.log
 npm-debug.log*
