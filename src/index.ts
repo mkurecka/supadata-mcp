@@ -41,6 +41,19 @@ class SupadataMCPServer {
   }
 
   private loadConfiguration(): void {
+    // First try environment variable
+    const envApiKey = process.env.SUPADATA_API_KEY;
+    if (envApiKey) {
+      const config: SupadataConfig = {
+        apiKey: envApiKey,
+        baseUrl: process.env.SUPADATA_BASE_URL || 'https://api.supadata.ai/v1'
+      };
+      this.supadata = new SupadataClient(config);
+      console.error('Loaded Supadata configuration from environment variables');
+      return;
+    }
+
+    // Fallback to JSON config files
     const configPaths = [
       join(process.cwd(), 'supadata-config.json'),
       join(__dirname, '..', 'supadata-config.json'),
@@ -66,7 +79,7 @@ class SupadataMCPServer {
       }
     }
 
-    console.error('Warning: No Supadata configuration found. Please create supadata-config.json with your API key.');
+    console.error('Warning: No Supadata configuration found. Set SUPADATA_API_KEY environment variable or create supadata-config.json.');
   }
 
   private setupErrorHandling(): void {

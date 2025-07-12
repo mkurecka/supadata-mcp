@@ -31,6 +31,15 @@ cp supadata-config.json.example supadata-config.json
 
 ## Configuration
 
+### Option 1: Environment Variables (Recommended)
+Set environment variables (useful for MCP server configuration):
+
+```bash
+export SUPADATA_API_KEY="your-supadata-api-key-here"
+export SUPADATA_BASE_URL="https://api.supadata.ai/v1"  # optional
+```
+
+### Option 2: JSON Configuration File
 Create `supadata-config.json` in the project root:
 
 ```json
@@ -40,15 +49,33 @@ Create `supadata-config.json` in the project root:
 }
 ```
 
-The server will look for configuration files in this order:
-1. `./supadata-config.json` (current working directory)
-2. `../supadata-config.json` (parent of dist directory)
-3. `./dist/supadata-config.json` (alongside compiled files)
+The server will look for configuration in this order:
+1. Environment variables (`SUPADATA_API_KEY`, `SUPADATA_BASE_URL`)
+2. `./supadata-config.json` (current working directory)
+3. `../supadata-config.json` (parent of dist directory)
+4. `./dist/supadata-config.json` (alongside compiled files)
 
 ## Usage
 
-Configure the MCP server in your AI assistant:
+### Claude App MCP Configuration
 
+Add to your Claude app's MCP server configuration:
+
+```json
+{
+  "mcpServers": {
+    "supadata": {
+      "command": "node",
+      "args": ["/path/to/supadata-mcp/dist/index.js"],
+      "env": {
+        "SUPADATA_API_KEY": "your-supadata-api-key-here"
+      }
+    }
+  }
+}
+```
+
+### Alternative: Without Environment Variables
 ```json
 {
   "mcpServers": {
@@ -59,6 +86,7 @@ Configure the MCP server in your AI assistant:
   }
 }
 ```
+*(Requires supadata-config.json file)*
 
 ## Tools
 
