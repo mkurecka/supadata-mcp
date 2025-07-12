@@ -1,0 +1,4 @@
+{
+  "apiKey": "your-supadata-api-key-here",
+  "baseUrl": "https://api.supadata.ai/v1"
+}
