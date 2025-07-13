@@ -30,8 +30,7 @@ export class SupadataClient {
     const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
-        'x-api-key': this.config.apiKey,
-        'Content-Type': 'application/json'
+        'x-api-key': this.config.apiKey
       }
     });
 
