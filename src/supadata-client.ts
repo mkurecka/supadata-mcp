@@ -1,4 +1,5 @@
 import { SupadataConfig, TranscriptRequest, TranscriptResponse, SupadataError } from './types.js';
+import fetch from 'node-fetch';
 
 export class SupadataClient {
   private config: SupadataConfig;
@@ -27,6 +28,10 @@ export class SupadataClient {
       url.searchParams.append('mode', request.mode);
     }
 
+    // Debug logging
+    console.error(`Supadata API Request: ${url.toString()}`);
+    console.error(`Headers: x-api-key: ${this.config.apiKey.substring(0, 8)}...`);
+
     const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
@@ -37,10 +42,10 @@ export class SupadataClient {
     if (!response.ok) {
       const errorData: SupadataError = await response.json().catch(() => ({
         error: `HTTP ${response.status}: ${response.statusText}`
-      }));
+      })) as SupadataError;
       throw new Error(`Supadata API error: ${errorData.error || errorData.message || 'Unknown error'}`);
     }
 
-    return await response.json();
+    return await response.json() as TranscriptResponse;
   }
 }
