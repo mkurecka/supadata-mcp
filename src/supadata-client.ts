@@ -28,10 +28,6 @@ export class SupadataClient {
       url.searchParams.append('mode', request.mode);
     }
 
-    // Debug logging
-    console.error(`Supadata API Request: ${url.toString()}`);
-    console.error(`Headers: x-api-key: ${this.config.apiKey.substring(0, 8)}...`);
-
     const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
@@ -43,7 +39,19 @@ export class SupadataClient {
       const errorData: SupadataError = await response.json().catch(() => ({
         error: `HTTP ${response.status}: ${response.statusText}`
       })) as SupadataError;
-      throw new Error(`Supadata API error: ${errorData.error || errorData.message || 'Unknown error'}`);
+      
+      // Provide helpful error messages for common issues
+      let errorMessage = errorData.error || errorData.message || 'Unknown error';
+      
+      if (errorMessage.includes('upgrade-required')) {
+        errorMessage = `Account upgrade required. Your current plan may not support this feature. Check your plan limits at https://supadata.ai/pricing. Original error: ${errorMessage}`;
+      } else if (errorMessage.includes('unauthorized') || errorMessage.includes('invalid') && errorMessage.includes('key')) {
+        errorMessage = `Invalid API key. Please check your API key from https://supadata.ai. Original error: ${errorMessage}`;
+      } else if (errorMessage.includes('rate-limit') || errorMessage.includes('quota')) {
+        errorMessage = `Rate limit or quota exceeded. Please check your plan limits or try again later. Original error: ${errorMessage}`;
+      }
+      
+      throw new Error(`Supadata API error: ${errorMessage}`);
     }
 
     return await response.json() as TranscriptResponse;
